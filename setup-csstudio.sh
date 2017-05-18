@@ -1,16 +1,25 @@
 #!/bin/bash
 
-# Clone repository
-git clone ${CSSTUDIO_LIB} ${LNLSTUDIO_PATH}/cs-studio
+cd ${CSSTUDIO_LIB_PATH}/cs-studio
+        
+# Activates maven profile
+MAVEN_FLAGS="-P uploadRepo"
 
-cd ${LNLSTUDIO_PATH}/cs-studio
+if [ "${3}" == "applications" ] ; then
+        MAVEN_APP_FLAGS="-Dcsstudio.composite.repo=${CSSTUDIO_REPO}/core/${2}"
+else
+        MAVEN_APP_FLAGS=""
+fi
 
-# Build for versions 4.5.x (branch master), 4.4.x (branch 4.4.x) and 4.3.x (branch 4.3.x)
-for VERSION in "master" "4.4.x" "4.3.x"
-do
-    git checkout ${VERSION}
-    (cd core && mvn clean install)
-    (cd application && mvn clean install)
-done 
+MAVEN_GOALS=verify
+
+echo "Building branch ${1} ..."
+git checkout ${1}
+
+(cd ${3} && sed -i "s~<upload.root>.*$~<upload.root>file://${CSSTUDIO_REPO}/</upload.root>~" pom.xml && mvn ${MAVEN_FLAGS} ${MAVEN_APP_FLAGS} ${MAVEN_GOALS})
+
+git checkout ${3}/pom.xml
+
+ls -l ${CSSTUDIO_REPO}
 
 
