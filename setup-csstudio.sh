@@ -6,6 +6,7 @@ cd ${CSSTUDIO_LIB_PATH}/cs-studio
 MAVEN_FLAGS="-P uploadRepo"
 
 if [ "${3}" == "applications" ] ; then
+        echo "Compiling applications..."
         MAVEN_APP_FLAGS="-Dcsstudio.composite.repo=${CSSTUDIO_REPO}/core/${2}"
 else
         MAVEN_APP_FLAGS=""
@@ -20,6 +21,7 @@ git checkout ${1}
 
 git checkout ${3}/pom.xml
 
+# Cleans repository folders before continuing
+mvn clean
+
 ls -l ${CSSTUDIO_REPO}
-
-
