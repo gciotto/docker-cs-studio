@@ -6,9 +6,7 @@
 # Gustavo Ciotto Pinton
 #
 
-. ./env-vars-specific.sh
+. ./env-vars.sh
 
+docker build -t ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME} .
 
-        docker build --build-arg ARCHAPPL_MYIDENTITY=${ARCHAPPL_MYIDENTITY} --build-arg APPLIANCE_UNIT=${APPLIANCE} -t ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}-${APPLIANCE} .
-        echo "Ok!"
-done
