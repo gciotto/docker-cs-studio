@@ -22,6 +22,6 @@ git checkout ${1}
 git checkout ${3}/pom.xml
 
 # Cleans repository folders before continuing
-mvn clean
+(cd ${3} && mvn clean)
 
 ls -l ${CSSTUDIO_REPO}
